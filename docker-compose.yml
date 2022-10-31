@@ -1,0 +1,13 @@
+version: '3'
+services:
+  dota2_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    volumes:
+      - .:/dota2_service
+    environment:
+      - DEBUG=True
+    restart: on-failure
