@@ -1,14 +1,22 @@
-from flask import Flask
-import json
+from fastapi import FastAPI
+import uvicorn
+from models import SimpleModel
+from fastapi.responses import JSONResponse
 
-app = Flask(__name__)
+app = FastAPI()
+
+# GET request example
+@app.get("/")
+async def root():
+    sm = SimpleModel(id=1, name="randomname")
+    return JSONResponse(content=sm.dict())
 
 
-@app.route("/")
-def all_orders():
-    message = "HELLO"
-    return json.dumps(message)
+# POST request example
+@app.post("/post")
+async def post(simple_model: SimpleModel):
+    return simple_model
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5001)
+    uvicorn.run("app:app", host="0.0.0.0", reload=True, port=5001)
